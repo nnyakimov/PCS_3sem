@@ -4,6 +4,25 @@ import 'cart_screen.dart';
 import 'favorites_screen.dart';
 
 // SVG иконки вынесены в глобальные константы
+const String cardFrameSvg = '''
+<svg width="185" height="201" viewBox="0 0 185 201" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#filter0_d_0_9696)">
+<rect x="10" y="5" width="165" height="181" rx="9" fill="white"/>
+</g>
+<defs>
+<filter id="filter0_d_0_9696" x="0" y="0" width="185" height="201" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="5"/>
+<feGaussianBlur stdDeviation="5"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.101961 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_9696"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_9696" result="shape"/>
+</filter>
+</defs>
+</svg>
+''';
+
 const String homeIconSvg = '''
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_29315_94)">
@@ -88,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.3),
+              color: Colors.grey.withValues(alpha: 0.3),
               blurRadius: 10,
               offset: const Offset(0, -2),
             ),
@@ -113,7 +132,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 homeIconSvg,
                 width: 24,
                 height: 24,
-                color: _currentIndex == 0 ? Colors.blue : Colors.grey,
+                colorFilter: ColorFilter.mode(
+                  _currentIndex == 0 ? Colors.blue : Colors.grey,
+                  BlendMode.srcIn,
+                ),
               ),
               label: '',
             ),
@@ -122,7 +144,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 favoriteIconSvg,
                 width: 24,
                 height: 30,
-                color: _currentIndex == 1 ? Colors.blue : Colors.grey,
+                colorFilter: ColorFilter.mode(
+                  _currentIndex == 1 ? Colors.blue : Colors.grey,
+                  BlendMode.srcIn,
+                ),
               ),
               label: '',
             ),
@@ -131,7 +156,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 cartIconSvg,
                 width: 24,
                 height: 24,
-                color: _currentIndex == 2 ? Colors.blue : Colors.grey,
+                colorFilter: ColorFilter.mode(
+                  _currentIndex == 2 ? Colors.blue : Colors.grey,
+                  BlendMode.srcIn,
+                ),
               ),
               label: '',
             ),
@@ -184,14 +212,6 @@ class _HomeContentState extends State<_HomeContent> {
       'isInCart': false,
     },
     {
-      'id': '9',
-      'description': 'Lorem ipsum dolor sit amet consectetur',
-      'price': 17.00,
-      'image': 'lib/assets/images/dress3.png',
-      'isFavorite': false,
-      'isInCart': false,
-    },
-    {
       'id': '5',
       'description': 'Lorem ipsum dolor sit amet consectetur',
       'price': 17.00,
@@ -204,22 +224,6 @@ class _HomeContentState extends State<_HomeContent> {
       'description': 'Lorem ipsum dolor sit amet consectetur',
       'price': 17.00,
       'image': 'lib/assets/images/dress2.png',
-      'isFavorite': false,
-      'isInCart': false,
-    },
-    {
-      'id': '7',
-      'description': 'Lorem ipsum dolor sit amet consectetur',
-      'price': 17.00,
-      'image': 'lib/assets/images/dress3.png',
-      'isFavorite': false,
-      'isInCart': false,
-    },
-    {
-      'id': '8',
-      'description': 'Lorem ipsum dolor sit amet consectetur',
-      'price': 17.00,
-      'image': 'lib/assets/images/dress4.png',
       'isFavorite': false,
       'isInCart': false,
     },
@@ -290,7 +294,7 @@ class _HomeContentState extends State<_HomeContent> {
                 crossAxisCount: 2,
                 crossAxisSpacing: 16.0,
                 mainAxisSpacing: 16.0,
-                childAspectRatio: 0.7,
+                childAspectRatio: 0.65,
               ),
               itemCount: products.length,
               itemBuilder: (context, index) {
@@ -304,104 +308,129 @@ class _HomeContentState extends State<_HomeContent> {
   }
 
   Widget _buildProductCard(Map<String, dynamic> product, int index) {
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Stack(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // Рамка с карточкой товара
+        SizedBox(
+          width: 185,
+          height: 201,
+          child: Stack(
             children: [
-              // Картинка товара
-              Container(
-                height: 140,
-                width: double.infinity,
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(12),
-                    topRight: Radius.circular(12),
+              // SVG рамка на заднем плане
+              Positioned.fill(
+                child: SvgPicture.string(cardFrameSvg, fit: BoxFit.contain),
+              ),
+              // Карточка товара поверх рамки
+              Positioned(
+                left: 10,
+                top: 5,
+                right: 10,
+                bottom: 16,
+                child: Card(
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(9),
                   ),
-                  child: Image.asset(
-                    product['image'],
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                    height: double.infinity,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        color: Colors.grey[200],
-                        child: Center(
-                          child: Icon(
-                            Icons.shopping_bag,
-                            size: 40,
-                            color: Colors.grey[400],
+                  clipBehavior: Clip.antiAlias,
+                  child: Stack(
+                    children: [
+                      // Картинка товара
+                      Positioned.fill(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(9),
+                          child: Image.asset(
+                            product['image'],
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Container(
+                                color: Colors.grey[200],
+                                child: Center(
+                                  child: Icon(
+                                    Icons.shopping_bag,
+                                    size: 40,
+                                    color: Colors.grey[400],
+                                  ),
+                                ),
+                              );
+                            },
                           ),
                         ),
-                      );
-                    },
+                      ),
+                      // Иконки поверх картинки
+                      // Сердце в левом верхнем углу
+                      Positioned(
+                        top: 8,
+                        left: 8,
+                        child: GestureDetector(
+                          onTap: () => _toggleFavorite(index),
+                          child: SvgPicture.string(
+                            favoriteIconSvg,
+                            width: 23,
+                            height: 21,
+                            colorFilter: ColorFilter.mode(
+                              product['isFavorite'] ? Colors.red : Colors.white,
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                        ),
+                      ),
+                      // Пакет в левом нижнем углу изображения
+                      Positioned(
+                        bottom: 8,
+                        left: 8,
+                        child: GestureDetector(
+                          onTap: () => _toggleCart(index),
+                          child: SvgPicture.string(
+                            cartIconSvg,
+                            width: 24,
+                            height: 24,
+                            colorFilter: ColorFilter.mode(
+                              product['isInCart'] ? Colors.black : Colors.white,
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ),
-              // Описание товара
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      product['description'],
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey[600],
-                        height: 1.4,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      '\$${product['price'].toStringAsFixed(2)}',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ],
                 ),
               ),
             ],
           ),
-          // Иконки поверх картинки
-          // Сердце в левом верхнем углу
-          Positioned(
-            top: 8,
-            left: 8,
-            child: GestureDetector(
-              onTap: () => _toggleFavorite(index),
-              child: SvgPicture.string(
-                favoriteIconSvg,
-                width: 23,
-                height: 21,
-                color: product['isFavorite'] ? Colors.red : Colors.white,
+        ),
+        // Текст под карточкой
+        const SizedBox(height: 8),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                product['description'],
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey[600],
+                  height: 1.4,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
-            ),
-          ),
-          // Пакет в левом нижнем углу изображения
-          Positioned(
-            bottom: 110,
-            left: 8,
-            child: GestureDetector(
-              onTap: () => _toggleCart(index),
-              child: SvgPicture.string(
-                cartIconSvg,
-                width: 24,
-                height: 24,
-                color: product['isInCart'] ? Colors.black : Colors.white,
+              const SizedBox(height: 4),
+              Text(
+                '\$${product['price'].toStringAsFixed(2)}',
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

@@ -33,7 +33,7 @@ class PasswordScreen extends StatelessWidget {
             ),
 
             // Контент поверх фона
-            Container(
+            SizedBox(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               child: Stack(
