@@ -1,16 +1,46 @@
-# simple_notes
+Программирование корпоративных систем Отчет по практическому занданию номер 4 
+ЭФБО-06-23 
+Якимов Никита Николаевич
 
-A new Flutter project.
+Цели ПЗ:
 
-## Getting Started
+Создать заметки с помощью Flutter-приложения и подготовленного шаблона 
+Использовать ListView.builder и отработать работу с виджитами состояния такие как: StatefulWidget
+Отработать работу с формами и валидацией
 
-This project is a starting point for a Flutter application.
+Код кнопки удаления 
+onDismissed: (direction) => _delete(note),
+                  child: ListTile(
+                    title: Text(
+                      note.title.isEmpty ? '(без названия)' : note.title,
+                    ),
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Поиск 
+Widget _buildSearchField() {
+    return TextField(
+      controller: _searchController,
+      autofocus: true,
+      decoration: const InputDecoration(
+        hintText: 'Поиск...',
+        border: InputBorder.none,
+        hintStyle: TextStyle(color: Colors.black54),
+      ),
+      style: const TextStyle(color: Colors.black),
+    );
+  }
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Первый экран
+<img width="464" height="1015" alt="image" src="https://github.com/user-attachments/assets/1636567f-84e8-44c9-a17b-a398f3f6d59a" />
+
+Создание заметки 
+<img width="478" height="1013" alt="image" src="https://github.com/user-attachments/assets/4c4a48d2-477b-43a9-9c03-331ef126502c" />
+
+Созданная заметка 
+<img width="471" height="1016" alt="image" src="https://github.com/user-attachments/assets/65c63ad9-36e6-43e7-b814-495294973450" />
+
+Удаление заметки свайпом 
+<img width="476" height="1014" alt="image" src="https://github.com/user-attachments/assets/5135bcdd-7b1b-4205-adff-2ecd08e04fdc" />
+
+
+
