@@ -24,7 +24,7 @@
 Установил во вкладке SDK tools утилиту «Android SDK Command-line Tools (latest). Далее в терминале написал flutter doctor --android-licenses 
 
 
-<img width="617" height="371" alt="image" src="https://github.com/user-attachments/assets/afaaffe2-4dd4-489b-9f71-39f68abf556a" />
+<img width="647" height="413" alt="image" src="https://github.com/user-attachments/assets/5c568dd6-e8d5-4331-83c2-2a121710ab60" />
 
 
 <img width="373" height="53" alt="image" src="https://github.com/user-attachments/assets/dbe77ffd-31a5-4db9-bcab-972e1ae1eb3d" />
